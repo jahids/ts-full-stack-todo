@@ -1,7 +1,9 @@
 import axios from 'axios';
 import { Note } from '../model/noteModel';
 export  async function fetchAllNotes() : Promise<Note[]> {
-        const apidata : any = await axios.get(`http://localhost:5000/api/notes`)
+        const apidata : any = await axios.get(`http://localhost:5000/api/notes`,{
+           withCredentials: true,
+        })
         return apidata?.data?.c;
 }
 
