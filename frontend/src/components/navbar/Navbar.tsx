@@ -1,13 +1,28 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useEffect } from 'react';
+import { useSelector } from 'react-redux';
 
 const NavBar: React.FC = () => {
-    
-    useEffect(() => {
-        
-    }, [localStorage.getItem("email") ])
+  const [userLogged,setUserLogged]=useState<string | null>("")
 
+let h;
+
+    const loggedEmail =localStorage.getItem("email")
+    console.log(loggedEmail)
+    useEffect(() => {
+        setUserLogged(loggedEmail)
+    }, [loggedEmail ])
+
+    const reduxdata =useSelector((state : any) => state.loginData)
+ if(reduxdata.email !== ""){
+ h =reduxdata?.email
+ }else{
+  h = loggedEmail
+ }
+    
+
+  console.log("redux data", reduxdata);
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light">
       <div className="container">
@@ -29,7 +44,7 @@ const NavBar: React.FC = () => {
           <ul className="navbar-nav ms-auto">
             <li className="nav-item">
                 {
-                    localStorage.getItem("email")  ?  localStorage.getItem("email") : <Link className="nav-link" to="/login">
+                    h   ?  h : <Link className="nav-link" to="/login">
                     Login
                   </Link>
                 }
@@ -47,7 +62,7 @@ const NavBar: React.FC = () => {
             </li>
 
             <li className="nav-item">
-              <Link className="nav-link" to="/dashborad">
+              <Link className="nav-link" to="/dashbord">
                 DashBoard
               </Link>
             </li>

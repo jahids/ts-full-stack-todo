@@ -1,9 +1,14 @@
 import React from 'react';
 import axios from 'axios';
 import { useCookies } from 'react-cookie';
+import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { logoutHandlerFunc } from '../../features/login/loginSlice';
 
 const Logout: React.FC = () => {
   const [, , removeCookie] = useCookies(['auth-token']);
+  const navigate=useNavigate()
+  const dispatch=useDispatch()
   const handleLogout = async () => {
     try {
       // Make a POST request to the logout API endpoint
@@ -13,7 +18,8 @@ const Logout: React.FC = () => {
       // Clear the auth-token cookie or any other cookies related to user authentication
       removeCookie('auth-token', { path: '/' });
       // Redirect to the login page or any other page of your choice after successful logout
-      window.location.href = '/login'; // Replace with the login page URL
+      dispatch(logoutHandlerFunc())
+      navigate('/login'); // Replace with the login page URL
     } catch (error) {
       console.error('Logout failed', error);
     }

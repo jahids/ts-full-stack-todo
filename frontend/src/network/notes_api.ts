@@ -16,6 +16,7 @@ interface paramsType  {
   const createdata : any = await axios({
         method: 'post',
         url: 'http://localhost:5000/api/notes',
+        withCredentials: true,
         data: params
       });
 
@@ -23,7 +24,9 @@ interface paramsType  {
 }
 
 export const deleteNote = async(id : string) => {
- const deletedData = await axios.delete(`http://localhost:5000/api/notes/${id}`)
+ const deletedData = await axios.delete(`http://localhost:5000/api/notes/${id}`,{
+  withCredentials: true,
+ })
  return deletedData?.data
 }
 
@@ -32,6 +35,7 @@ export const updateNote = async(id: string, params : paramsType) : Promise<Note[
   const updated : any = await axios({
         method : "patch",
         url : `http://localhost:5000/api/notes/${id}`,
+        withCredentials: true,
         data :params
   })
 

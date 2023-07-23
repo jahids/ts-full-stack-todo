@@ -7,6 +7,8 @@ import env from "./utils/ValidateEnv"
 import session from "express-session";
 import MongoStore from "connect-mongo";
 import cookieParser from 'cookie-parser';
+import adminroute from "./routes/Admin.route"
+import autheticauser from "./utils/VarifyToken"
 
 const app = express();
 app.use(cookieParser());
@@ -15,24 +17,10 @@ app.use(cors({
   credentials: true, // Allow credentials (cookies)
 }));
 app.use(express.json())
-
-// session middelware use
-// app.use(session({
-//   secret: env.SESSION_SECRET,
-//   resave: false,
-//   saveUninitialized: false,
-//   cookie: { 
-//     maxAge : 60 * 60 * 1000
-//    },
-//    rolling : true,
-//   //  mongodb store
-//   store : MongoStore.create({
-//     mongoUrl : env.MONGO_CONNECTION_URI
-//   })
-// }))
-
 app.use("/", userRoute)
+app.use(autheticauser)
 app.use("/api/notes", noteRoute)
+app.use("/",adminroute)
 
 app.use((req, res, next)=>{
   next (Error("endpoint not found"))

@@ -13,7 +13,7 @@ export interface User  {
 // Extend Request to include the 'user' property
 
 
-export const verifyToken = (req : any, res : any,  next : any) => {
+ const verifyToken = (req : any, res : any,  next : any) => {
    
     
   const token = req.cookies['auth-token'];
@@ -29,9 +29,22 @@ export const verifyToken = (req : any, res : any,  next : any) => {
     // If the token is valid, store the user information in the request object
     req.user = decodedToken;
 
+    console.log("--decode token", req.user);
+
+    const role  = req.user.role
+
     // Proceed to the next middleware or route handler
     next();
   } catch (error) {
     return res.status(401).json({ error: 'Unauthorized' });
   }
-};
+}; 
+
+// export const verifyAdmin  = (req : any, res : any) => {
+//   verifyToken(req,res, (error : any) => {
+//     console.log("req varify", req.user);
+    
+//   })
+// };
+
+export default verifyToken

@@ -4,24 +4,39 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
 import { useCookies } from 'react-cookie';
+import { useNavigate } from 'react-router-dom';
+import { useDispatch,useSelector } from 'react-redux';
+import { loginHandlerFunc } from '../../features/login/loginSlice';
 
 const Login: React.FC = () => {
   const { register, handleSubmit, formState: { errors } } = useForm();
   const [, setCookie] = useCookies(['auth-token']);
+  const navigate=useNavigate()
+  const dispatch = useDispatch();
+  const reduxdata =useSelector((state : any) => state.loginData)
+
+  console.log("redux data", reduxdata);
+  
+
+
   const onSubmit = async (data: any) => {
     try {
       const response = await axios.post('http://localhost:5000/login', data);
       // Assuming the API response contains a token after successful login
       const { token } = response.data;
-      const {email, role} = response.data?.data
+      const {email, role, username} = response.data?.data
       console.log("resp", response);
+      dispatch(loginHandlerFunc({email, role, username}))
       localStorage.setItem("email", email)
       localStorage.setItem("role", role)
       // Set the token in the cookie
     setCookie('auth-token', token, { path: '/' });
+    if(token){
+      navigate('/')
+    }
    
       // Redirect to a protected route after successful login (e.g., dashboard)
-   window.location.href = '/'; // Replace with your protected route URL
+  //  window.location.href = '/'; // Replace with your protected route URL
    
     } catch (error) {
       console.error('Login failed', error);
