@@ -45,6 +45,12 @@ const NavBar: React.FC = () => {
                 Logout
               </Link>
             </li>
+
+            <li className="nav-item">
+              <Link className="nav-link" to="/dashborad">
+                DashBoard
+              </Link>
+            </li>
           </ul>
         </div>
       </div>
