@@ -4,33 +4,32 @@ import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 
 const NavBar: React.FC = () => {
-  const [userLogged,setUserLogged]=useState<string | null>("")
+  const [userLogged, setUserLogged] = useState<string | null>('');
 
-let h;
+  let h;
 
-    const loggedEmail =localStorage.getItem("email")
-    console.log(loggedEmail)
-    useEffect(() => {
-        setUserLogged(loggedEmail)
-    }, [loggedEmail ])
+  const loggedEmail = localStorage.getItem('email');
+  console.log(loggedEmail);
+  useEffect(() => {
+    setUserLogged(loggedEmail);
+  }, [loggedEmail]);
 
-    const reduxdata =useSelector((state : any) => state.loginData)
- if(reduxdata.email !== ""){
- h =reduxdata?.email
- }else{
-  h = loggedEmail
- }
-    
+  const reduxdata = useSelector((state: any) => state.loginData);
+  if (reduxdata.email !== '') {
+    h = reduxdata?.email;
+  } else {
+    h = loggedEmail;
+  }
 
-  console.log("redux data", reduxdata);
+  console.log('redux data', reduxdata);
   return (
-    <nav className="navbar navbar-expand-lg navbar-light bg-light">
-      <div className="container">
-        <Link className="navbar-brand" to="/">
-          My App
+    <nav className="bg-light ">
+      <div className="container mx-auto px-4 py-2 flex items-center justify-between ">
+        <Link className="text-xl font-bold" to="/">
+          <span className="text-3xl font-bold underline"> My App</span>
         </Link>
         <button
-          className="navbar-toggler"
+          className="text-xl font-bold md:hidden"
           type="button"
           data-bs-toggle="collapse"
           data-bs-target="#navbarNav"
@@ -40,30 +39,30 @@ let h;
         >
           <span className="navbar-toggler-icon"></span>
         </button>
-        <div className="collapse navbar-collapse" id="navbarNav">
-          <ul className="navbar-nav ms-auto">
+        <div className="hidden md:flex md:items-center md:justify-end w-full md:w-auto">
+          <ul className="flex flex-col md:flex-row md:space-x-4">
             <li className="nav-item">
-                {
-                    h   ?  h : <Link className="nav-link" to="/login">
-                    Login
-                  </Link>
-                }
-              
+              {h ? (
+                <span className="text-xl font-bold">{h}</span>
+              ) : (
+                <Link className="text-xl font-bold" to="/login">
+                  Login
+                </Link>
+              )}
             </li>
             <li className="nav-item">
-              <Link className="nav-link" to="/signup">
+              <Link className="text-xl font-bold" to="/signup">
                 Signup
               </Link>
             </li>
             <li className="nav-item">
-              <Link className="nav-link" to="/logout">
+              <Link className="text-xl font-bold" to="/logout">
                 Logout
               </Link>
             </li>
-
             <li className="nav-item">
-              <Link className="nav-link" to="/dashbord">
-                DashBoard
+              <Link className="text-xl font-bold" to="/dashbord">
+                Dashboard
               </Link>
             </li>
           </ul>

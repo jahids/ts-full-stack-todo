@@ -2,13 +2,14 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import MainApp from './MainApp';
 import Login from './components/authentication/Login';
 import Logout from './components/authentication/Logout';
-
+import './index.css';
 import Dashboard from './components/adminDashbord/Dashbord';
 import { useSelector } from 'react-redux';
 import Layout from './components/Layout/Layout';
 import { PrivateRoute } from './PrivateRoute';
 import SignUp from './components/authentication/Signup';
 import UserDashboard from './components/userDashboard/UserDashboard';
+import ChatMain from './components/chat/ChatMain';
 const App = () => {
   const role = localStorage.getItem('role');
   console.log('role app', role);
@@ -27,7 +28,7 @@ const App = () => {
     {
       path: '/dashbord',
       component: Dashboard,
-      roles: ['admin', 'user'],
+      roles: ['admin'],
     },
     {
       path: '/admin/users',
@@ -60,6 +61,7 @@ const App = () => {
           <Route path="/logout" element={<Logout />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="*" element={<p>not found this page</p>} />
+          <Route path="/chat" element={<ChatMain />} />
           {/* admin route */}
           {allRoute.map((route, index) => (
             <Route

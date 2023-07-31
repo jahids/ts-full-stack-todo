@@ -7,8 +7,8 @@ import { logoutHandlerFunc } from '../../features/login/loginSlice';
 
 const Logout: React.FC = () => {
   const [, , removeCookie] = useCookies(['auth-token']);
-  const navigate=useNavigate()
-  const dispatch=useDispatch()
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const handleLogout = async () => {
     try {
       // Make a POST request to the logout API endpoint
@@ -18,7 +18,7 @@ const Logout: React.FC = () => {
       // Clear the auth-token cookie or any other cookies related to user authentication
       removeCookie('auth-token', { path: '/' });
       // Redirect to the login page or any other page of your choice after successful logout
-      dispatch(logoutHandlerFunc())
+      dispatch(logoutHandlerFunc());
       navigate('/login'); // Replace with the login page URL
     } catch (error) {
       console.error('Logout failed', error);
@@ -27,9 +27,12 @@ const Logout: React.FC = () => {
 
   return (
     <div className="container mt-5">
-      <h1>Logout</h1>
+      <h1 className="text-3xl font-bold">Logout</h1>
       <p>Click the button below to logout.</p>
-      <button className="btn btn-primary" onClick={handleLogout}>
+      <button
+        className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+        onClick={handleLogout}
+      >
         Logout
       </button>
     </div>
