@@ -25,26 +25,44 @@ interface socketusers {
   socketId: string;
 }
 
+// socket
+
 let users: socketusers[] = [];
 io.on('connection', (socket: Socket) => {
   socket.on('addUser', (data) => {
-    const user: socketusers = { id: data, socketId: socket.id };
-    users.push(user);
-    io.emit('getUsers', users);
+    const existuser = users.find((item) => item.id === data);
+
+    if (!existuser) {
+      const user: socketusers = { id: data, socketId: socket.id };
+      users.push(user);
+      io.emit('getUsers', users);
+    }
     console.log('user connected', data);
   });
-  // socket.on('disconnect', () => {
-  //   console.log('A user disconnected');
-  // });
 
-  // Define your socket event handlers here
-  // For example:
-  // socket.on('chat message', (message: string) => {
-  //   console.log('Received message:', message);
-  //   // Broadcast the message to all connected clients
-  //   io.emit('chat message', message);
-  // });
+  socket.on('sendMessage', ({ conversationId, senderId, message, receiverId }) => {
+    // online aca ki nah recervier id check
+    console.log('socket peramitar rcv', receiverId);
+    const receiver = users.find((item) => item.id === receiverId);
+    console.log('reciver', receiver, 'users', users);
+    if (receiver) {
+      io.to(receiver.socketId).emit('getMessage', {
+        conversationId,
+        senderId,
+        message,
+        receiverId,
+      });
+    }
+  });
+
+  // disconnect code
+  socket.on('disconnect', () => {
+    users.filter((item) => item.socketId !== socket.id);
+    io.emit('getUsers', users);
+  });
 });
+
+// socket
 
 app.use(cookieParser());
 app.use(

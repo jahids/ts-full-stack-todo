@@ -69,9 +69,15 @@ const ChatMain: React.FC = () => {
     socket?.on('getUsers', (user: any) => {
       console.log('---', user);
     });
+
+    socket?.on('getMessage', (data: any) => {
+      console.log('message from socket', data);
+      setmsg((prev)=>...prev)
+    });
   }, [socket]);
 
   const clickHandler = async (id: String, contact: any) => {
+    console.log('user props', contact);
     try {
       const data = await axios.get(`http://localhost:5000/c/api/message/${id}`);
       console.log('message user', data?.data);
@@ -80,10 +86,12 @@ const ChatMain: React.FC = () => {
       console.log(error);
     }
     // console.log('converstion id', id, 'reciver id', contact?.reciverId);
-    setstoredata({ conversationid: id, reciverid: contact?.receiverId });
+    setstoredata({ conversationid: id, reciverid: contact?.reciverId });
 
     setClick(!click);
   };
+
+  console.log('all msg', allmsg);
 
   const conversationCreatemsgSend = async (id: String, contact: any) => {
     console.log('store data', storedata);
@@ -133,6 +141,14 @@ const ChatMain: React.FC = () => {
 
   const sendMessage = async () => {
     console.log('store data', storedata);
+
+    socket?.emit('sendMessage', {
+      conversationId: storedata?.conversationid,
+      senderId: userdetail?._id,
+      message: message,
+      receiverId: storedata?.reciverid,
+    });
+
     const url = 'http://localhost:5000/c/api/message';
     const data = {
       conversationId: storedata?.conversationid,

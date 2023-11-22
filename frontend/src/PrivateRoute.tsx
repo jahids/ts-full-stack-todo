@@ -7,10 +7,7 @@ interface Props {
   roles: Array<any>;
 }
 
-export const PrivateRoute: React.FC<Props> = ({
-  component: RouteComponent,
-  roles,
-}) => {
+export const PrivateRoute: React.FC<Props> = ({ component: RouteComponent, roles }) => {
   const user = localStorage.getItem('role');
   const isAuthenticated = localStorage.getItem('email');
   const userHasRequiredRole = user && roles.includes(user) ? true : false;

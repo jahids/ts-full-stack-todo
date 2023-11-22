@@ -28,7 +28,7 @@ const App = () => {
     {
       path: '/dashbord',
       component: Dashboard,
-      roles: ['admin'],
+      roles: ['user', 'admin'],
     },
     {
       path: '/admin/users',
@@ -67,9 +67,7 @@ const App = () => {
             <Route
               key={index}
               path={route.path}
-              element={
-                <PrivateRoute roles={route.roles} component={route.component} />
-              }
+              element={<PrivateRoute roles={route.roles} component={route.component} />}
             />
           ))}
           {/* close admi route */}
